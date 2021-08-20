@@ -1,8 +1,8 @@
-file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/../include/ph_file/*.hpp")
+file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/../include/ph_webserver/*.hpp")
 
 
 foreach(file ${HEADER_LIST})
-    source_group (TREE ${CMAKE_CURRENT_LIST_DIR}/../include/ph_file
+    source_group (TREE ${CMAKE_CURRENT_LIST_DIR}/../include/ph_webserver
         PREFIX "include"               
         FILES  ${file}
     )
@@ -20,13 +20,13 @@ endforeach()
 
 
 
-add_library (ph_file
+add_library (ph_webserver
 	${SOURCE_LIST}  ${HEADER_LIST} 
-	# ALIAS ph_file::ph_file
+	# ALIAS ph_webserver::ph_webserver
 )
 
 set_target_properties (
-	ph_file 
+	ph_webserver 
 
 	PROPERTIES
   		CXX_STANDARD 20
@@ -37,16 +37,16 @@ set_target_properties (
 		""
 )
 # Make override a feature requirement only if available
-target_compile_features (ph_file 
+target_compile_features (ph_webserver 
 	PUBLIC
   		$<$<COMPILE_FEATURES:cxx_override>:cxx_override>
 )
 # Define the foo_OVERRIDE symbol so it provides the
 # override keyword if available or empty otherwise
-target_compile_definitions (ph_file 
+target_compile_definitions (ph_webserver 
 	# PUBLIC
-  	# 	$<$<COMPILE_FEATURES:cxx_override>:-Dph_file_OVERRIDE=override>
-  	# 	$<$<NOT:$<COMPILE_FEATURES:cxx_override>>:-Dph_file_OVERRIDE>
+  	# 	$<$<COMPILE_FEATURES:cxx_override>:-Dph_webserver_OVERRIDE=override>
+  	# 	$<$<NOT:$<COMPILE_FEATURES:cxx_override>>:-Dph_webserver_OVERRIDE>
 
 	PRIVATE 
 		"$<$<CONFIG:DEBUG>:DEBUG> $<$<CONFIG:RELEASE>:RELEASE>"
@@ -58,31 +58,31 @@ target_compile_definitions (ph_file
 
 # target_sources (ph_concepts PRIVATE in/platform.hpp)
 
-set_target_properties (ph_file PROPERTIES CXX_STANDARD 20)
-target_compile_features (ph_file PUBLIC cxx_std_20)
+set_target_properties (ph_webserver PROPERTIES CXX_STANDARD 20)
+target_compile_features (ph_webserver PUBLIC cxx_std_20)
 
-ph_precompile (TARGET ph_file PRIVATE PCH ${std_pch})
+ph_precompile (TARGET ph_webserver PRIVATE PCH ${std_pch})
 
-# add_library (ph_file ALIAS ph_file::ph_file)
+# add_library (ph_webserver ALIAS ph_webserver::ph_webserver)
 # target_link_libraries (lib PRIVATE    ${Vulkan_LIBRARIES} glfw)
-# target_link_libraries (lib PRIVATE ph_file)
+# target_link_libraries (lib PRIVATE ph_webserver)
 
-target_include_directories (ph_file PUBLIC ${CMAKE_PROJECT_SOURCE_DIR}/include ph_concepts ph_proxy ph_optional)
-target_link_libraries (ph_file PUBLIC ph_concepts ph_proxy ph_optional)
+target_include_directories (ph_webserver PUBLIC ${CMAKE_PROJECT_SOURCE_DIR}/include ph_concepts ph_proxy ph_optional)
+target_link_libraries (ph_webserver PUBLIC ph_concepts ph_proxy ph_optional)
 
 # target_include_directories (ph_concepts PRIVATE ${Boost_INCLUDE_DIRS})
 
-target_compile_features (ph_file PUBLIC cxx_std_20)
+target_compile_features (ph_webserver PUBLIC cxx_std_20)
 
 # target_compile_options(ph_concepts PUBLIC "-ast-dump  -fsyntax-only")
 
 
-target_include_directories(ph_file PRIVATE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/../include/ph_file>
-    $<INSTALL_INTERFACE:include/ph_file>
+target_include_directories(ph_webserver PRIVATE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/../include/ph_webserver>
+    $<INSTALL_INTERFACE:include/ph_webserver>
 )
 
-target_include_directories(ph_file PUBLIC
+target_include_directories(ph_webserver PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/../include>
     $<INSTALL_INTERFACE:include>
 )
@@ -90,7 +90,7 @@ target_include_directories(ph_file PUBLIC
 if (PROJECT_NAME STREQUAL PROJECT_NAME)
     # set_target_properties (lib PROPERTIES FOLDER "lib/")
 else ()
-    set_target_properties (ph_file PROPERTIES FOLDER "dependencies/ph_file")
+    set_target_properties (ph_webserver PROPERTIES FOLDER "dependencies/ph_webserver")
 endif ()
 
 
